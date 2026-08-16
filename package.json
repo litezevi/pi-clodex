@@ -1,0 +1,22 @@
+{
+  "name": "pi-clodex",
+  "version": "1.0.0",
+  "description": "Pi coding agent extension to integrate Clodex.xyz as a provider.",
+  "keywords": [
+    "pi-package",
+    "pi-coding-agent",
+    "ai",
+    "llm",
+    "api-gateway"
+  ],
+  "author": "Lite Zevin",
+  "license": "MIT",
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "pi": {
+    "extensions": [
+      "index.ts"
+    ]
+  }
+}
