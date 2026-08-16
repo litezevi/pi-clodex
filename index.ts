@@ -398,7 +398,7 @@ function buildModelConfigs(
       // quota_type === 1 is per-request/image pricing; skip for cost tracking
     }
 
-    const contextWindow = model.contextWindow ?? meta.contextWindow ?? 128000;
+    const contextWindow = meta.contextWindow ?? model.contextWindow ?? 128000;
 
     configs.push({
       id,
