@@ -1,13 +1,14 @@
-import type {
-  ExtensionAPI,
-  ProviderModelConfig
+import {
+  getAgentDir,
+  readStoredCredential,
+  type ExtensionAPI,
+  type ProviderModelConfig
 } from "@earendil-works/pi-coding-agent";
 import {
   readFileSync,
   existsSync,
   mkdirSync,
   writeFileSync,
-  chmodSync,
   unlinkSync,
   renameSync
 } from "node:fs";
@@ -86,29 +87,18 @@ function validateModels(models: ProviderModelConfig[]): {
 // ---------------------------------------------------------------------------
 
 function getModelsFilePath(): string {
-  const home = process.env.HOME || process.env.USERPROFILE || "~";
-  return join(home, ".pi", "agent", "extensions", "pi-clodex", "models.json");
-}
-
-function getAuthFilePath(): string {
-  const home = process.env.HOME || process.env.USERPROFILE || "~";
-  return join(home, ".pi", "agent", "auth.json");
+  return join(getAgentDir(), "extensions", "pi-clodex", "models.json");
 }
 
 function getClodexApiKey(): string | null {
-  try {
-    const authFile = getAuthFilePath();
-    if (existsSync(authFile)) {
-      const auth = JSON.parse(readFileSync(authFile, "utf-8"));
-      if (auth["clodex"] && typeof auth["clodex"] === "object") {
-        const key = (auth["clodex"] as Record<string, unknown>).key;
-        if (typeof key === "string" && key.trim().length > 0) return key.trim();
-      }
-    }
-  } catch (error) {
-    console.error("[pi-clodex] Failed to load auth.json:", error);
+  const credential = readStoredCredential("clodex");
+  if (credential?.type === "api_key" && typeof credential.key === "string") {
+    const key = credential.key.trim();
+    if (key) return key;
   }
-  return null;
+
+  const envKey = process.env.CLODEX_API_KEY?.trim();
+  return envKey || null;
 }
 
 // ---------------------------------------------------------------------------

@@ -78,10 +78,10 @@ Pi automatically calculates and displays the cost of every request using the `co
 Cached model data is stored in:
 
 ```
-~/.pi/agent/extensions/pi-clodex/models.json
+$PI_CODING_AGENT_DIR/extensions/pi-clodex/models.json
 ```
 
-Delete this file to force a fresh API fetch on next startup.
+Which defaults to `~/.pi/agent/extensions/pi-clodex/models.json`. Delete this file to force a fresh API fetch on next startup.
 
 ## API Compatibility
 
